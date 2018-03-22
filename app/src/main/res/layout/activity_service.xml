@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="masterung.androidthai.in.th.ungreadcode.ServiceActivity">
 
+    <!--Content Fragement-->
+    <FrameLayout
+        android:id="@+id/contentServiceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </android.support.constraint.ConstraintLayout>

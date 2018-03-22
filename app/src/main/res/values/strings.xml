@@ -7,4 +7,6 @@
     <string name="have_space">มีช่องว่าง</string>
     <string name="message_have_space">กรุณากรอก ทุกช่องคะ</string>
 
+    <string name="title_show_child">My Children</string>
+
 </resources>

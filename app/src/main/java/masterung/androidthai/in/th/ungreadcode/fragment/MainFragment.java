@@ -150,11 +150,12 @@ public class MainFragment extends Fragment{
         for (int i=0; i<loginStrings.length; i+=1) {
             stringArrayList.add(loginStrings[i]);
         }
-
+        Log.d("22MarchV1", "String Save SharePrefer ==> " + stringArrayList.toString());
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Login", stringArrayList.toString());
+        editor.commit();
 
 
     }
