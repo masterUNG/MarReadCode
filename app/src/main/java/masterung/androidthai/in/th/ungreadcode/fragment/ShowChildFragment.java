@@ -1,10 +1,19 @@
 package masterung.androidthai.in.th.ungreadcode.fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
 
+import masterung.androidthai.in.th.ungreadcode.NotificationActivity;
 import masterung.androidthai.in.th.ungreadcode.R;
 import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
 import masterung.androidthai.in.th.ungreadcode.utility.AddChild;
@@ -42,7 +52,9 @@ import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
 public class ShowChildFragment extends Fragment {
 
     private String[] loginStrings;
+    private boolean statusABoolean = true;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -55,8 +67,88 @@ public class ShowChildFragment extends Fragment {
 
         createListView();
 
+        myLoop();
+
 
     }   // Main Method
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void myLoop() {
+
+//        To Do
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            GetChildWhereIdUser getChildWhereIdUser = new GetChildWhereIdUser(getActivity());
+            getChildWhereIdUser.execute(loginStrings[0], myConstant.getUrlGetChildWhereIdUser());
+
+            String jsonString = getChildWhereIdUser.get();
+            Log.d("23MarchV1", "json form loop ==> " + jsonString);
+
+            JSONArray jsonArray = new JSONArray(jsonString);
+            for (int i=0; i<jsonArray.length(); i+=1) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject.getString("Status").equals("1")) {
+                    statusABoolean = false;
+
+                    String[] columnStrings = myConstant.getColumnMessageStrings();
+                    String[] messageStrings = new String[columnStrings.length];
+
+                    for (int i1=0; i1<columnStrings.length; i1+=1) {
+                        messageStrings[i1] = jsonObject.getString(columnStrings[i1]);
+                    }
+                    myNoticication(messageStrings);
+                    Log.d("23MarchV1", "Loop Stop");
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (statusABoolean) {
+                    myLoop();
+                }
+            }
+        }, 1000);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    private void myNoticication(String[] messageStrings) {
+
+        Log.d("23MarchV1", "Notification Work");
+
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        intent.putExtra("Message", messageStrings);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(),
+                (int) System.currentTimeMillis(), intent, 0);
+
+        Uri uri = RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND);
+
+        Notification.Builder builder = new Notification.Builder(getActivity());
+        builder.setTicker(getString(R.string.app_name));
+        builder.setContentTitle(messageStrings[3] + " Have Message");
+        builder.setContentText("Please Click Here");
+        builder.setSmallIcon(R.drawable.ic_action_message);
+        builder.setSound(uri);
+        builder.setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        notification.flags |= Notification.DEFAULT_SOUND | Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONLY_ALERT_ONCE;
+        notificationManager.notify(0, notification);
+
+
+    }
 
     private void getValueFromSharePreference() {
         SharedPreferences sharedPreferences = getActivity()

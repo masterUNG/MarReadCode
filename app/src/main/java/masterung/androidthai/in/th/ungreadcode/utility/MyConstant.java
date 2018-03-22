@@ -13,7 +13,14 @@ public class MyConstant {
     private String urlPostUserString = "http://androidthai.in.th/mar/postUser.php";
 
     //    About Array
+    private String[] columnMessageStrings = new String[]{"id", "idUser", "Code",
+            "NameChild", "ImageChild", "Status", "DateMessage", "Message"};
     private String[] loginStrings = new String[]{"id", "Name", "User", "Password"};
+
+
+    public String[] getColumnMessageStrings() {
+        return columnMessageStrings;
+    }
 
     public String getUrlGetChildWhereIdUser() {
         return urlGetChildWhereIdUser;
