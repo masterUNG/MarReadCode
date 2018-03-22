@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Ung Read Code</string>
+
+    <string name="login_th">ลงชื่อเข้าใช้งาน</string>
+    <string name="register">สมัครใช้งาน</string>
+
+    <string name="have_space">มีช่องว่าง</string>
+    <string name="message_have_space">กรุณากรอก ทุกช่องคะ</string>
+
+</resources>
