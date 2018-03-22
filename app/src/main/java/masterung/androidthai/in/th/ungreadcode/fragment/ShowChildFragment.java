@@ -15,7 +15,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -26,6 +32,7 @@ import masterung.androidthai.in.th.ungreadcode.R;
 import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
 import masterung.androidthai.in.th.ungreadcode.utility.AddChild;
 import masterung.androidthai.in.th.ungreadcode.utility.ChangeStringToArray;
+import masterung.androidthai.in.th.ungreadcode.utility.GetChildWhereIdUser;
 import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
 
 /**
@@ -45,6 +52,8 @@ public class ShowChildFragment extends Fragment {
 
 //        Create Toolbar
         createToolbar();
+
+        createListView();
 
 
     }   // Main Method
@@ -140,9 +149,49 @@ public class ShowChildFragment extends Fragment {
             String resultString = addChild.get();
             Log.d("22MarchV1", "result from AddChild ==> " + resultString);
 
+            if (Boolean.parseBoolean(resultString)) {
+                createListView();
+            } else {
+                Toast.makeText(getActivity(),
+                        "Cannot Add Child Please Try Again",
+                        Toast.LENGTH_SHORT).show();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    private void createListView() {
+
+        ListView listView = getView().findViewById(R.id.listviewChild);
+
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            GetChildWhereIdUser getChildWhereIdUser = new GetChildWhereIdUser(getActivity());
+            getChildWhereIdUser.execute(loginStrings[0], myConstant.getUrlGetChildWhereIdUser());
+
+            String jsonString = getChildWhereIdUser.get();
+            Log.d("22MarchV1", "JSON ==> " + jsonString);
+
+            JSONArray jsonArray = new JSONArray(jsonString);
+
+            String[] nameChildStrings = new String[jsonArray.length()];
+            for (int i=0; i<jsonArray.length(); i+=1) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                nameChildStrings[i] = jsonObject.getString("NameChild");
+            }
+
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                    android.R.layout.simple_list_item_1, nameChildStrings);
+            listView.setAdapter(stringArrayAdapter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

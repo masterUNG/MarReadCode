@@ -7,6 +7,7 @@ package masterung.androidthai.in.th.ungreadcode.utility;
 public class MyConstant {
 
     //    About URL
+    private String urlGetChildWhereIdUser = "http://androidthai.in.th/mar/getChildWhereIdUser.php";
     private String urlAddChildString = "http://androidthai.in.th/mar/AddChild.php";
     private String urlGetAllUserString = "http://androidthai.in.th/mar/getAllUser.php";
     private String urlPostUserString = "http://androidthai.in.th/mar/postUser.php";
@@ -14,6 +15,9 @@ public class MyConstant {
     //    About Array
     private String[] loginStrings = new String[]{"id", "Name", "User", "Password"};
 
+    public String getUrlGetChildWhereIdUser() {
+        return urlGetChildWhereIdUser;
+    }
 
     public String getUrlAddChildString() {
         return urlAddChildString;
