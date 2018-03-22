@@ -1,5 +1,8 @@
 package masterung.androidthai.in.th.ungreadcode.fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +18,10 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import masterung.androidthai.in.th.ungreadcode.R;
+import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
 import masterung.androidthai.in.th.ungreadcode.utility.GetAllUser;
 import masterung.androidthai.in.th.ungreadcode.utility.MyAlert;
 import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
@@ -105,9 +111,11 @@ public class MainFragment extends Fragment{
                             Toast.makeText(getActivity(), "Welcome " + loginStrings[1],
                                     Toast.LENGTH_SHORT).show();
 
-                            
+                            saveToSharePreferance(loginStrings);
 
-
+                            Intent intent = new Intent(getActivity(), ServiceActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
 
                         } else {
 //                            Password False
@@ -132,6 +140,21 @@ public class MainFragment extends Fragment{
 
             }   // onClick
         });
+
+
+    }
+
+    private void saveToSharePreferance(String[] loginStrings) {
+
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        for (int i=0; i<loginStrings.length; i+=1) {
+            stringArrayList.add(loginStrings[i]);
+        }
+
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Login", stringArrayList.toString());
 
 
     }
