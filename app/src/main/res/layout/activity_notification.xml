@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context="masterung.androidthai.in.th.ungreadcode.NotificationActivity">
 
+    <FrameLayout
+        android:id="@+id/contentNotiFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </android.support.constraint.ConstraintLayout>
