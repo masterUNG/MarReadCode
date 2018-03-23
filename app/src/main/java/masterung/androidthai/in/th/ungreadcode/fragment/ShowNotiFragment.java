@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import masterung.androidthai.in.th.ungreadcode.NotificationActivity;
 import masterung.androidthai.in.th.ungreadcode.R;
@@ -71,6 +74,19 @@ public class ShowNotiFragment extends Fragment{
     private void createListView() {
 
         ListView listView = getView().findViewById(R.id.listViewMessage);
+        ChangeStringToArray changeStringToArray = new ChangeStringToArray(getActivity());
+        String[] dateStrings = changeStringToArray.myChangeStringToArray(messageStrings[6]);
+        String[] newsStrings = changeStringToArray.myChangeStringToArray(messageStrings[7]);
+
+        String[] contentStrings = new String[dateStrings.length];
+        for (int i=0; i<dateStrings.length; i+=1) {
+            contentStrings[i] = dateStrings[i] + "\n" + newsStrings[i];
+        }
+
+
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_1, contentStrings);
+        listView.setAdapter(stringArrayAdapter);
 
     }
 
