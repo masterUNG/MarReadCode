@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import masterung.androidthai.in.th.ungreadcode.NotificationActivity;
 import masterung.androidthai.in.th.ungreadcode.R;
 import masterung.androidthai.in.th.ungreadcode.utility.ChangeStringToArray;
+import masterung.androidthai.in.th.ungreadcode.utility.EditStatusWhereIdUserAnStatus;
+import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
 
 /**
  * Created by masterung on 23/3/2018 AD.
@@ -48,6 +50,8 @@ public class ShowNotiFragment extends Fragment{
 //        Get Value From SherePreferance
         getValueFromSharePreference();
 
+        changeStatus();
+
 
 //        Create Toolbar
         createToolbar();
@@ -56,6 +60,22 @@ public class ShowNotiFragment extends Fragment{
         createListView();
 
     }   // Main Class
+
+    private void changeStatus() {
+
+        try {
+
+            MyConstant myConstant = new MyConstant();
+            EditStatusWhereIdUserAnStatus editStatusWhereIdUserAnStatus = new EditStatusWhereIdUserAnStatus(getActivity());
+            editStatusWhereIdUserAnStatus.execute(loginStrings[0], myConstant.getUrlEditStatusWhereIDuser());
+
+            Log.d("23MarchV1", "Result From Change Status ==> " + editStatusWhereIdUserAnStatus.get());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     private void getValueFromSharePreference() {
 

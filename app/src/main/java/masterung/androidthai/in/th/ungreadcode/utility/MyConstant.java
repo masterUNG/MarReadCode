@@ -7,6 +7,7 @@ package masterung.androidthai.in.th.ungreadcode.utility;
 public class MyConstant {
 
     //    About URL
+    private String urlEditStatusWhereIDuser = "http://androidthai.in.th/mar/EditStatusByUser.php";
     private String urlGetChildWhereIdUser = "http://androidthai.in.th/mar/getChildWhereIdUser.php";
     private String urlAddChildString = "http://androidthai.in.th/mar/AddChild.php";
     private String urlGetAllUserString = "http://androidthai.in.th/mar/getAllUser.php";
@@ -17,6 +18,9 @@ public class MyConstant {
             "NameChild", "ImageChild", "Status", "DateMessage", "Message"};
     private String[] loginStrings = new String[]{"id", "Name", "User", "Password"};
 
+    public String getUrlEditStatusWhereIDuser() {
+        return urlEditStatusWhereIDuser;
+    }
 
     public String[] getColumnMessageStrings() {
         return columnMessageStrings;
