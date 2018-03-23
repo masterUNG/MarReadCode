@@ -1,7 +1,7 @@
 # MarReadCode
 ## Workshop Course Andorid
-##connected mySQL and Servece read Bar code and QR code 
-###โรงเรียนมารีย์อนุสรณ์ อำเภอเมือง  จังหวัดบุรีรัมย์
+## connected mySQL and Servece read Bar code and QR code
+### โรงเรียนมารีย์อนุสรณ์ อำเภอเมือง  จังหวัดบุรีรัมย์
 
 [![Screen_Shot_2561-03-24_at_04.58.47.png](https://s9.postimg.org/krmamewsf/Screen_Shot_2561-03-24_at_04.58.47.png)](https://postimg.org/image/nygu61h8b/)
 
