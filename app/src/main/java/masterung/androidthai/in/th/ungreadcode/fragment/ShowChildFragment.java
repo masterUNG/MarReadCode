@@ -175,6 +175,12 @@ public class ShowChildFragment extends Fragment {
 
         if (item.getItemId() == R.id.itemAddChild) {
             addNameChild();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.itemReadQR) {
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
