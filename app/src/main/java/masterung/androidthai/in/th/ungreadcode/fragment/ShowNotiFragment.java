@@ -40,6 +40,7 @@ public class ShowNotiFragment extends Fragment{
 //        Create Toolbar
         createToolbar();
 
+
     }   // Main Class
 
     private void createToolbar() {
