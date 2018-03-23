@@ -29,11 +29,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.zxing.Result;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -43,7 +46,9 @@ import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
 import masterung.androidthai.in.th.ungreadcode.utility.AddChild;
 import masterung.androidthai.in.th.ungreadcode.utility.ChangeStringToArray;
 import masterung.androidthai.in.th.ungreadcode.utility.GetChildWhereIdUser;
+import masterung.androidthai.in.th.ungreadcode.utility.GetMessageWhereCode;
 import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * Created by masterung on 22/3/2018 AD.
@@ -51,8 +56,10 @@ import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
 
 public class ShowChildFragment extends Fragment {
 
-    private String[] loginStrings;
+    private String[] loginStrings, messageStrings;
     private boolean statusABoolean = true;
+    private ZXingScannerView zXingScannerView;
+    private String resultFromReadQrString;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -179,11 +186,89 @@ public class ShowChildFragment extends Fragment {
         }
 
         if (item.getItemId() == R.id.itemReadQR) {
-
+            readQRandBar();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readQRandBar() {
+
+        zXingScannerView = new ZXingScannerView(getActivity());
+        getActivity().setContentView(zXingScannerView);
+        zXingScannerView.setAutoFocus(true);
+        zXingScannerView.startCamera();
+        zXingScannerView.setResultHandler(new ZXingScannerView.ResultHandler() {
+            @Override
+            public void handleResult(Result result) {
+
+                zXingScannerView.stopCamera();
+                resultFromReadQrString = result.getText().toString();
+
+                Log.d("23MarchV2", "QR or Bar Code ==> " + resultFromReadQrString);
+
+                try {
+
+                    GetMessageWhereCode getMessageWhereCode = new GetMessageWhereCode(getActivity());
+                    MyConstant myConstant = new MyConstant();
+                    getMessageWhereCode.execute(resultFromReadQrString,
+                            myConstant.getUrlGetMessageWhereCode());
+
+                    String resultString = getMessageWhereCode.get();
+
+                    JSONArray jsonArray = new JSONArray(resultString);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                    String[] column = myConstant.getColumnMessageStrings();
+                    messageStrings = new String[column.length];
+                    for (int i=0; i<column.length; i+=1) {
+                        messageStrings[i] = jsonObject.getString(column[i]);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+                String newDateString = findDate();
+//                String newMessageString =
+                addNameChild();
+
+
+//                Restart Activity
+                if (resultFromReadQrString.length() != 0) {
+                    restartActivity();
+                }
+
+
+            }   // handleResult
+        });
+
+    }
+
+    private String findDate() {
+
+        Calendar calendar = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String dateString = dateFormat.format(calendar.getTime());
+
+        ChangeStringToArray changeStringToArray = new ChangeStringToArray(getActivity());
+        String[] strings = changeStringToArray.myChangeStringToArray(messageStrings[6]);
+        ArrayList<String> stringArrayList = new ArrayList<>();
+        for (int i=0; i<strings.length; i+=1) {
+            stringArrayList.add(strings[i]);
+        }
+        stringArrayList.add(dateString);
+
+        return stringArrayList.toString();
+    }
+
+    private void restartActivity() {
+        Intent intent = getActivity().getIntent();
+        getActivity().finish();
+        startActivity(intent);
     }
 
     private void addNameChild() {

@@ -13,10 +13,11 @@ import com.squareup.okhttp.Response;
  * Created by masterung on 23/3/2018 AD.
  */
 
-public class GetChildWhereIdUser extends AsyncTask<String, Void, String>{
+public class GetMessageWhereCode extends AsyncTask<String, Void, String>{
+
     private Context context;
 
-    public GetChildWhereIdUser(Context context) {
+    public GetMessageWhereCode(Context context) {
         this.context = context;
     }
 
@@ -27,7 +28,7 @@ public class GetChildWhereIdUser extends AsyncTask<String, Void, String>{
             OkHttpClient okHttpClient = new OkHttpClient();
             RequestBody requestBody = new FormEncodingBuilder()
                     .add("isAdd", "true")
-                    .add("idUser", strings[0])
+                    .add("Code", strings[0])
                     .build();
             Request.Builder builder = new Request.Builder();
             Request request = builder.url(strings[1]).post(requestBody).build();
