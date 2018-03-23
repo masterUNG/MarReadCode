@@ -42,6 +42,7 @@ import java.util.Random;
 
 import masterung.androidthai.in.th.ungreadcode.NotificationActivity;
 import masterung.androidthai.in.th.ungreadcode.R;
+import masterung.androidthai.in.th.ungreadcode.ReadBarQRcodeActivity;
 import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
 import masterung.androidthai.in.th.ungreadcode.utility.AddChild;
 import masterung.androidthai.in.th.ungreadcode.utility.ChangeStringToArray;
@@ -208,33 +209,33 @@ public class ShowChildFragment extends Fragment {
 
                 Log.d("23MarchV2", "QR or Bar Code ==> " + resultFromReadQrString);
 
-                try {
+//                try {
+//
+//                    GetMessageWhereCode getMessageWhereCode = new GetMessageWhereCode(getActivity());
+//                    MyConstant myConstant = new MyConstant();
+//                    getMessageWhereCode.execute(resultFromReadQrString,
+//                            myConstant.getUrlGetMessageWhereCode());
+//
+//                    String resultString = getMessageWhereCode.get();
+//
+//                    JSONArray jsonArray = new JSONArray(resultString);
+//                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+//
+//                    String[] column = myConstant.getColumnMessageStrings();
+//                    messageStrings = new String[column.length];
+//                    for (int i=0; i<column.length; i+=1) {
+//                        messageStrings[i] = jsonObject.getString(column[i]);
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
-                    GetMessageWhereCode getMessageWhereCode = new GetMessageWhereCode(getActivity());
-                    MyConstant myConstant = new MyConstant();
-                    getMessageWhereCode.execute(resultFromReadQrString,
-                            myConstant.getUrlGetMessageWhereCode());
 
-                    String resultString = getMessageWhereCode.get();
-
-                    JSONArray jsonArray = new JSONArray(resultString);
-                    JSONObject jsonObject = jsonArray.getJSONObject(0);
-
-                    String[] column = myConstant.getColumnMessageStrings();
-                    messageStrings = new String[column.length];
-                    for (int i=0; i<column.length; i+=1) {
-                        messageStrings[i] = jsonObject.getString(column[i]);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-
-                String newDateString = findDate();
-//                String newMessageString =
-                addNameChild();
+//
+//                String newDateString = findDate();
+////                String newMessageString =
+//                addNameChild();
 
 
 //                Restart Activity
@@ -266,9 +267,11 @@ public class ShowChildFragment extends Fragment {
     }
 
     private void restartActivity() {
-        Intent intent = getActivity().getIntent();
-        getActivity().finish();
+        Intent intent = new Intent(getActivity(), ReadBarQRcodeActivity.class);
+        intent.putExtra("Code", resultFromReadQrString);
         startActivity(intent);
+        getActivity().finish();
+
     }
 
     private void addNameChild() {

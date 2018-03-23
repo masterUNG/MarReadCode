@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="@dimen/padding"
+        android:layout_margin="30dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--Current Time-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_action_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txtCurrent"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:textSize="@dimen/h1"
+                android:text="dd-MM-yyyy HH:mm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--Name Child-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/ic_action_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/txtNameChild"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="10dp"
+                android:textStyle="italic"
+                android:textSize="@dimen/h2"
+                android:text="dd-MM-yyyy HH:mm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!--Context-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edtMessage"
+                android:hint="Message :"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnSentMessage"
+                android:layout_weight="2"
+                android:text="Sent Message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

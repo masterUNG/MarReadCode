@@ -3,7 +3,7 @@
     package="masterung.androidthai.in.th.ungreadcode">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ServiceActivity" />
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".NotificationActivity" />
+        <activity android:name=".ReadBarQRcodeActivity"></activity>
     </application>
 
 </manifest>
