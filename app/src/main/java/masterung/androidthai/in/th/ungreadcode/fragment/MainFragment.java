@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +33,14 @@ import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
 
 public class MainFragment extends Fragment{
 
+    boolean aBoolean = false;   //false ==> Not Remember
+    CheckBox checkBox;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        checkStatus();
 
 //        Register Controller
         registerController();
@@ -44,8 +49,31 @@ public class MainFragment extends Fragment{
 //        Login Controller
         loginController();
 
+//        CheckBox Controller
+        checkBoxController();
 
     }   // Main Method
+
+    private void checkStatus() {
+        try {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+            aBoolean = sharedPreferences.getBoolean("Status", false);
+            Log.d("26MarchV1", "aBoolean From SharePerferences ==> " + aBoolean);
+            if (aBoolean) {
+                goToService();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void checkBoxController() {
+        checkBox = getView().findViewById(R.id.checkboxRemember);
+        if (checkBox.isChecked()) {
+            aBoolean = true;
+        }
+
+    }
 
     private void loginController() {
 
@@ -113,9 +141,7 @@ public class MainFragment extends Fragment{
 
                             saveToSharePreferance(loginStrings);
 
-                            Intent intent = new Intent(getActivity(), ServiceActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
+                            goToService();
 
                         } else {
 //                            Password False
@@ -144,6 +170,12 @@ public class MainFragment extends Fragment{
 
     }
 
+    private void goToService() {
+        Intent intent = new Intent(getActivity(), ServiceActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
     private void saveToSharePreferance(String[] loginStrings) {
 
         ArrayList<String> stringArrayList = new ArrayList<>();
@@ -151,10 +183,18 @@ public class MainFragment extends Fragment{
             stringArrayList.add(loginStrings[i]);
         }
         Log.d("22MarchV1", "String Save SharePrefer ==> " + stringArrayList.toString());
+
+        if (checkBox.isChecked()) {
+            aBoolean = true;
+        }
+        Log.d("26MarchV1", "aBoolean Before Save Prefer ==> " + aBoolean);
+
+
         SharedPreferences sharedPreferences = getActivity()
                 .getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("Login", stringArrayList.toString());
+        editor.putBoolean("Status", aBoolean);
         editor.commit();
 
 

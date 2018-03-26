@@ -66,6 +66,12 @@
 
          </LinearLayout>
 
+         <CheckBox
+             android:id="@+id/checkboxRemember"
+             android:text="Remember User and Password"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" />
+
          <!--Login-->
          <Button
              android:id="@+id/btnLogin"
