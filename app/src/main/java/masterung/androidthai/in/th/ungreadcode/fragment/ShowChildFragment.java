@@ -182,7 +182,13 @@ public class ShowChildFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.itemAddChild) {
-            addNameChild();
+
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contentServiceFragment, new AddChildFragment())
+                    .addToBackStack(null)
+                    .commit();
+
             return true;
         }
 

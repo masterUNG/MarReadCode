@@ -3,4 +3,5 @@
     <dimen name="h1">24sp</dimen>
     <dimen name="h2">18sp</dimen>
     <dimen name="padding">16dp</dimen>
+    <dimen name="avata">180dp</dimen>
 </resources>
