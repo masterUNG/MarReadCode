@@ -1,10 +1,12 @@
 package masterung.androidthai.in.th.ungreadcode.fragment;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
@@ -12,17 +14,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import masterung.androidthai.in.th.ungreadcode.R;
 import masterung.androidthai.in.th.ungreadcode.ServiceActivity;
+import masterung.androidthai.in.th.ungreadcode.utility.MyAlert;
+import masterung.androidthai.in.th.ungreadcode.utility.MyConstant;
+import masterung.androidthai.in.th.ungreadcode.utility.UploadImageToServer;
 
 public class AddChildFragment extends Fragment{
 
     private Uri uri;
     private ImageView imageView;
+    private boolean aBoolean = true;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -58,12 +66,15 @@ public class AddChildFragment extends Fragment{
 
         if (resultCode == getActivity().RESULT_OK) {
 
+            aBoolean = false;
+
             try {
 
                 uri = data.getData();
                 Bitmap bitmap = BitmapFactory
                         .decodeStream(getActivity().getContentResolver().openInputStream(uri));
                 imageView.setImageBitmap(bitmap);
+
 
 
             } catch (Exception e) {
@@ -79,6 +90,66 @@ public class AddChildFragment extends Fragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_add_child, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.itemAddChild) {
+            uploadValueToServer();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void uploadValueToServer() {
+
+        EditText editText = getView().findViewById(R.id.edtNameChild);
+        String nameChildString = editText.getText().toString();
+        MyAlert myAlert = new MyAlert(getActivity());
+
+        if (aBoolean) {
+            myAlert.myDialog("Not Choose", "Please Choose Image");
+        } else if (nameChildString.isEmpty()) {
+            myAlert.myDialog(getString(R.string.have_space),
+                    getString(R.string.message_have_space));
+        } else {
+
+            try {
+
+                String pathString = null;
+                String[] strings = new String[]{MediaStore.Images.Media.DATA};
+                Cursor cursor = getActivity().getContentResolver().query(uri, strings,
+                        null, null, null);
+                if (cursor != null) {
+
+                    cursor.moveToFirst();
+                    int indexInt = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                    pathString = cursor.getString(indexInt);
+
+                } else {
+                    pathString = uri.getPath();
+                }
+
+                Log.d("6AprilV1", "Path Image ==> " + pathString);
+
+                UploadImageToServer uploadImageToServer = new UploadImageToServer(getActivity());
+                uploadImageToServer.execute(pathString);
+
+                Log.d("6AprilV1", "Result ==> " + uploadImageToServer.get());
+
+
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+        }   // if
+
+
+
     }
 
     private void createToolbar() {

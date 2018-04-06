@@ -6,6 +6,14 @@ package masterung.androidthai.in.th.ungreadcode.utility;
 
 public class MyConstant {
 
+    //About FTP
+    private String hostString = "ftp.swiftcodingthai.com";
+    private int portAnInt = 21;
+    private String userString = "cent@swiftcodingthai.com";
+    private String passwordString = "Abc12345";
+
+
+
     //    About URL
     private String urlEditMessageWhereCode = "http://androidthai.in.th/mar/EditChildByCode.php";
     private String urlGetMessageWhereCode = "http://androidthai.in.th/mar/getMessageWhereCode.php";
@@ -19,6 +27,22 @@ public class MyConstant {
     private String[] columnMessageStrings = new String[]{"id", "idUser", "Code",
             "NameChild", "ImageChild", "Status", "DateMessage", "Message"};
     private String[] loginStrings = new String[]{"id", "Name", "User", "Password"};
+
+    public String getHostString() {
+        return hostString;
+    }
+
+    public int getPortAnInt() {
+        return portAnInt;
+    }
+
+    public String getUserString() {
+        return userString;
+    }
+
+    public String getPasswordString() {
+        return passwordString;
+    }
 
     public String getUrlEditMessageWhereCode() {
         return urlEditMessageWhereCode;
